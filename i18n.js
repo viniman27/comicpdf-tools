@@ -69,7 +69,7 @@ const I18N = {
       learn: "Learn",
       legal: "Legal",
       copy: "© 2026 ComicPDF Tools. Made for readers.",
-      domain: "comicpdf-tools.pages.dev",
+      domain: "comicpdftools.com",
     },
   },
   pt: {
@@ -141,7 +141,7 @@ const I18N = {
       learn: "Aprender",
       legal: "Legal",
       copy: "© 2026 ComicPDF Tools. Feito para leitores.",
-      domain: "comicpdf-tools.pages.dev",
+      domain: "comicpdftools.com",
     },
   },
 };

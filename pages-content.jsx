@@ -319,7 +319,7 @@ const PrivacyPage = ({ lang }) => (
       </ProseP>
 
       <ProseH2>{lang === "pt" ? "Contato" : "Contact"}</ProseH2>
-      <ProseP>viniciusdearaujo27@gmail.com</ProseP>
+      <ProseP>comicsconv@gmail.com</ProseP>
     </Prose>
   </div>
 );
