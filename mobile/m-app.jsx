@@ -134,4 +134,7 @@ const Stage = () => {
   );
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(<Stage/>);
+const isMobile = window.matchMedia("(max-width: 600px)").matches;
+ReactDOM.createRoot(document.getElementById("root")).render(
+  isMobile ? <MobileApp/> : <Stage/>
+);
