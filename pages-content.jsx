@@ -242,6 +242,7 @@ const FAQPage = ({ t, lang }) => {
     { q: "Há limite de páginas?", a: "Não. Já testamos volumes com mais de 500 páginas. O gargalo é a memória do navegador, não uma trava arbitrária do nosso lado." },
     { q: "Que formatos de imagem são suportados?", a: "JPEG, PNG, WebP, GIF e BMP. PNGs com transparência funcionam, mas podem ficar maiores que JPEG." },
     { q: "Que tipo de cookie é usado?", a: "Apenas os relacionados a publicidade (AdSense, se ativado nesta versão). Não fazemos tracking de uso da ferramenta." },
+    { q: "Isso é um projeto de fã?", a: "Sim. O ComicPDF Tools é um projeto feito por um fã, para fãs. Não tem vínculo com editoras, marcas ou publicadoras de quadrinhos." },
   ] : [
     { q: "Are my files uploaded to a server?", a: "No. The whole conversion happens in your browser. The .cbz bytes are read via the File API and processed locally — nothing leaves your computer." },
     { q: "Can I convert manga CBZ files?", a: "Yes. Manga are just .cbz files with images — usually high resolution. Works normally; we recommend keeping the original image size to preserve quality." },
@@ -253,6 +254,7 @@ const FAQPage = ({ t, lang }) => {
     { q: "Is there a page limit?", a: "No. We've tested with 500+ pages. The bottleneck is browser memory, not an arbitrary cap on our side." },
     { q: "Which image formats are supported?", a: "JPEG, PNG, WebP, GIF, BMP. Transparent PNGs work but may be larger than JPEG." },
     { q: "What cookies are used?", a: "Only ad-related (AdSense, if enabled in this build). We don't track tool usage." },
+    { q: "Is this a fan project?", a: "Yes. ComicPDF Tools is a passion project built by a fan, for fans. It is not affiliated with any comics publisher, brand, or rights holder." },
   ];
   return (
     <div className="page">
@@ -317,7 +319,7 @@ const PrivacyPage = ({ lang }) => (
       </ProseP>
 
       <ProseH2>{lang === "pt" ? "Contato" : "Contact"}</ProseH2>
-      <ProseP>privacy@comicpdf.example</ProseP>
+      <ProseP>viniciusdearaujo27@gmail.com</ProseP>
     </Prose>
   </div>
 );
