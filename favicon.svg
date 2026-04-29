@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- background red square -->
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="oklch(0.62 0.22 27)"/>
+  <!-- black border + offset shadow -->
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="none" stroke="#0F0F12" stroke-width="2"/>
+  <!-- 4 comic panel squares -->
+  <rect x="6"  y="6"  width="8" height="8" rx="1" fill="none" stroke="#FAF7F0" stroke-width="2.2"/>
+  <rect x="18" y="6"  width="8" height="8" rx="1" fill="none" stroke="#FAF7F0" stroke-width="2.2"/>
+  <rect x="6"  y="18" width="8" height="8" rx="1" fill="none" stroke="#FAF7F0" stroke-width="2.2"/>
+  <rect x="18" y="18" width="8" height="8" rx="1" fill="none" stroke="#FAF7F0" stroke-width="2.2"/>
+</svg>
