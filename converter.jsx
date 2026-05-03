@@ -1,5 +1,5 @@
 // Converter component — multi-file batch CBZ→PDF using JSZip + pdf-lib
-const { useState, useRef, useEffect, useCallback } = React;
+const { useState, useRef, useEffect } = React;
 
 const IMAGE_EXT = /\.(jpe?g|png|webp|gif|bmp)$/i;
 function naturalCompare(a, b) { return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }); }
@@ -57,7 +57,7 @@ const Converter = ({ t, lang }) => {
     };
   });
 
-  const addFiles = useCallback(async (fileList) => {
+  const addFiles = async (fileList) => {
     const files = Array.from(fileList || []);
     const newJobs = files.map(f => ({
       id: newJobId(), file: f, status: "pending",
@@ -67,9 +67,8 @@ const Converter = ({ t, lang }) => {
       error: null, archive: null,
     }));
     setJobs(prev => [...prev, ...newJobs]);
-    // Eagerly extract each so we can show page counts
     for (const job of newJobs) await extractJob(job.id, job.file);
-  }, []);
+  };
 
   const extractJob = async (id, file) => {
     updateJob(id, { status: "extracting", label: t.converter.reading, progress: 4 });

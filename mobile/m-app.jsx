@@ -1,6 +1,8 @@
 // Mobile app shell — top bar + screens + tab bar inside a phone frame
 const { useState, useEffect } = React;
 
+const _I18N = window.I18N;
+
 // Extend i18n with mobile-only labels
 const M_I18N_EXTRA = {
   en: { tabs: { home: "Home", convert: "Convert", guides: "Guides", faq: "FAQ", settings: "More" } },
@@ -26,7 +28,7 @@ const MobileApp = ({ hasNotch = false }) => {
     return () => clearTimeout(id);
   }, [toast]);
 
-  const baseT = window.I18N[lang];
+  const baseT = _I18N[lang];
   const t = { ...baseT, tabs: M_I18N_EXTRA[lang].tabs };
 
   const top = stack[stack.length - 1];

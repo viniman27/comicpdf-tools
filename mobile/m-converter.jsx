@@ -1,5 +1,5 @@
 // Mobile converter — multi-file batch CBZ→PDF (JSZip + pdf-lib)
-const { useState, useRef, useEffect, useCallback } = React;
+const { useState, useRef, useEffect } = React;
 
 const M_IMAGE_EXT = /\.(jpe?g|png|webp|gif|bmp)$/i;
 function mNatCompare(a, b) { return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }); }
@@ -36,7 +36,7 @@ const MConverter = ({ t, lang, setToast }) => {
   const removeJob = (id) => setJobs(prev => prev.filter(j => j.id !== id));
   const clearAll = () => setJobs([]);
 
-  const addFiles = useCallback(async (fileList) => {
+  const addFiles = async (fileList) => {
     const files = Array.from(fileList || []);
     const newJobs = files.map(f => ({
       id: newMJobId(), file: f, status: "pending",
@@ -47,7 +47,7 @@ const MConverter = ({ t, lang, setToast }) => {
     }));
     setJobs(prev => [...prev, ...newJobs]);
     for (const job of newJobs) await extractJob(job.id, job.file);
-  }, []);
+  };
 
   const extractJob = async (id, file) => {
     updateJob(id, { status: "extracting", label: t.converter.reading, progress: 4 });

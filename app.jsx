@@ -1,6 +1,9 @@
 // Main app shell — header, footer, router, theme/lang
 const { useState, useEffect } = React;
 
+// Capture at module load time so async third-party scripts can't override window.I18N later
+const _I18N = window.I18N;
+
 const ROUTES = [
   { path: "/", key: "converter", label: (t) => t.nav.converter },
   { path: "/cbz-to-pdf", key: "cbz", label: (t) => t.nav.cbz },
@@ -34,7 +37,7 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  const t = window.I18N[lang];
+  const t = _I18N[lang];
 
   let pageEl;
   switch (route) {
