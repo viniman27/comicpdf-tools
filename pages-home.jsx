@@ -12,7 +12,7 @@ const HomePage = ({ t, lang, navigate }) => (
     </section>
 
     <section className="container" style={{ marginTop: 64 }}>
-      <AdSlot size="leaderboard" label={t.sections.ad1} note={t.sections.adNote}/>
+      <AdSlot/>
     </section>
 
     <HowItWorksStrip t={t} lang={lang}/>
@@ -26,7 +26,7 @@ const HomePage = ({ t, lang, navigate }) => (
     </section>
 
     <section className="container" style={{ marginTop: 64, marginBottom: 32 }}>
-      <AdSlot size="square" label={t.sections.ad3} note={t.sections.adNote}/>
+      <AdSlot/>
     </section>
   </div>
 );
