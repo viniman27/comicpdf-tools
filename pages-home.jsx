@@ -26,7 +26,7 @@ const HomePage = ({ t, lang, navigate }) => (
     </section>
 
     <section className="container" style={{ marginTop: 64, marginBottom: 32 }}>
-      <AdSlot/>
+      <AdSlot slot="3865884541"/>
     </section>
   </div>
 );

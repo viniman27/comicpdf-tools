@@ -128,16 +128,16 @@ const PageBackdrop = () => (
 );
 
 // ---------- Ad slot placeholder ----------
-const AdSlot = () => {
+const AdSlot = ({ slot = "7526980307" }) => {
   const ref = useRef(null);
   useEffect(() => {
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
   }, []);
   return (
-    <div style={{ overflow: "hidden", textAlign: "center" }}>
+    <div style={{ overflow: "hidden", textAlign: "center", minHeight: 90 }}>
       <ins ref={ref} className="adsbygoogle" style={{ display: "block" }}
         data-ad-client="ca-pub-7987917511842847"
-        data-ad-slot="7526980307"
+        data-ad-slot={slot}
         data-ad-format="auto"
         data-full-width-responsive="true"
       />

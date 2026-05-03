@@ -312,7 +312,7 @@ const DropArea = ({ onPick, onFiles, dragging, t }) => {
       onDragEnter={() => setHoverLocal(true)}
       onDragLeave={() => setHoverLocal(false)}
       onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => { e.preventDefault(); setHoverLocal(false); onFiles(e.dataTransfer.files); }}
+      onDrop={(e) => { e.preventDefault(); e.stopPropagation(); setHoverLocal(false); onFiles(e.dataTransfer.files); }}
     >
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
         <div style={{
