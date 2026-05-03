@@ -128,20 +128,19 @@ const PageBackdrop = () => (
 );
 
 // ---------- Ad slot placeholder ----------
-const AdSlot = ({ size = "leaderboard", label, note }) => {
-  const dims = {
-    leaderboard: { w: "100%", h: 90, label: "728×90 leaderboard" },
-    rectangle: { w: 320, h: 250, label: "300×250 rectangle" },
-    square: { w: "100%", h: 250, label: "in-content rectangle" },
-    skyscraper: { w: 160, h: 600, label: "160×600 skyscraper" },
-  }[size] || { w: "100%", h: 120, label: "ad slot" };
+const AdSlot = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+  }, []);
   return (
-    <div className="ad-slot" style={{ minHeight: dims.h, width: dims.w, display: "grid", placeItems: "center" }}>
-      <div>
-        <div style={{ opacity: 0.7 }}>Advertisement</div>
-        <strong>{label || dims.label}</strong>
-        {note && <div style={{ marginTop: 6, opacity: 0.7, fontSize: 10 }}>{note}</div>}
-      </div>
+    <div style={{ overflow: "hidden", textAlign: "center" }}>
+      <ins ref={ref} className="adsbygoogle" style={{ display: "block" }}
+        data-ad-client="ca-pub-7987917511842847"
+        data-ad-slot="7526980307"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 };

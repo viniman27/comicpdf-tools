@@ -84,10 +84,7 @@ const HowItWorksPage = ({ t, lang }) => (
         <li style={{ marginTop: 6 }}>{lang === "pt" ? "PDFs podem ser grandes — não recomprimimos imagens por padrão." : "PDFs may be large — we don't re-compress images by default."}</li>
       </ul>
 
-      <div className="ad-slot" style={{ marginTop: 64 }}>
-        <div>Advertisement</div>
-        <strong>728×90 leaderboard</strong>
-      </div>
+      <div style={{ marginTop: 64 }}><AdSlot/></div>
     </Prose>
   </div>
 );
@@ -264,9 +261,7 @@ const FAQPage = ({ t, lang }) => {
         sub={lang === "pt" ? "Tudo que você quis saber e não teve coragem de perguntar." : "Everything you wanted to know and didn't dare ask."}
       />
       <div className="container-narrow">
-        <div className="ad-slot" style={{ marginBottom: 32 }}>
-          <div>Advertisement</div><strong>728×90 leaderboard</strong>
-        </div>
+        <div style={{ marginBottom: 32 }}><AdSlot/></div>
         <div style={{ display: "grid", gap: 12 }}>
           {items.map((it, i) => <FAQItem key={i} q={it.q} a={it.a} defaultOpen={i === 0}/>)}
         </div>
