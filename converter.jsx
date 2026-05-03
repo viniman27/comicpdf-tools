@@ -99,20 +99,16 @@ const Converter = ({ t, lang }) => {
     }
   };
 
-  const convertJob = async (id) => {
-    const job = jobs.find(j => j.id === id) || (await new Promise(r => setTimeout(() => r(null), 0)));
-    // Re-read from latest state
-    let current;
-    setJobs(prev => { current = prev.find(j => j.id === id); return prev; });
-    if (!current || !current.archive) return;
+  const convertJob = async (id, archive) => {
+    if (!archive) return;
     updateJob(id, { status: "converting", progress: 35, label: t.converter.composing });
     try {
       const { PDFDocument } = PDFLib;
       const pdf = await PDFDocument.create();
-      const total = current.archive.entries.length;
+      const total = archive.entries.length;
       const marginPx = margin === "small" ? 18 : 0;
       for (let i = 0; i < total; i++) {
-        const entry = current.archive.entries[i];
+        const entry = archive.entries[i];
         const bytes = await blobToBytes(entry.blob);
         const lower = entry.name.toLowerCase();
         let img;
@@ -153,9 +149,8 @@ const Converter = ({ t, lang }) => {
 
   const convertAll = async () => {
     setBatchRunning(true);
-    // snapshot ids of ready jobs
-    const ids = jobs.filter(j => j.status === "ready" || j.status === "error").map(j => j.id);
-    for (const id of ids) await convertJob(id);
+    const readyJobs = jobs.filter(j => (j.status === "ready" || j.status === "error") && j.archive);
+    for (const j of readyJobs) await convertJob(j.id, j.archive);
     setBatchRunning(false);
   };
 
