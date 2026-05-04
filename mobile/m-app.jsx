@@ -66,9 +66,9 @@ const MobileApp = ({ hasNotch = false }) => {
   return (
     <div className={"app-shell" + (hasNotch ? " has-notch" : "")} style={hasNotch ? { paddingTop: 54 } : undefined}>
       <TopBar title={topTitle} onBack={topBack} lang={lang} theme={theme} setTheme={setTheme}/>
-      <div style={{ position: "relative", overflow: "hidden" }}>
+      <div style={{ position: "relative", overflow: "hidden", minHeight: 0 }}>
         <div className="dots-bg" style={{ position: "absolute", inset: 0, pointerEvents: "none" }}/>
-        <div style={{ position: "relative", height: "100%", overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
+        <div style={{ position: "absolute", inset: 0, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
           {body}
         </div>
         {toast && <div className="m-toast">{toast}</div>}
