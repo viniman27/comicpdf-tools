@@ -187,14 +187,14 @@ const FeatureGrid = ({ t, lang }) => {
     { icon: "lock", title: "100% Privado", body: "Nenhum byte sai do seu computador. Nenhum servidor, nenhum upload, nenhum cookie de tracking." },
     { icon: "bolt", title: "Rápido como deveria ser", body: "A conversão acontece com a CPU local. Sem fila, sem espera, sem limite de tamanho do servidor." },
     { icon: "globe", title: "Funciona offline", body: "Carregue a página uma vez e ela continua funcionando sem internet. Bom para acervos longos." },
-    { icon: "stack", title: "Vários formatos", body: ".cbz, .zip funcionam direto. .cbr/.rar em beta. JPG, PNG, WebP, GIF e BMP suportados." },
+    { icon: "stack", title: "Vários formatos", body: ".cbz e .zip funcionam direto. .cbr/.rar suportados via WASM. JPG, PNG, WebP, GIF e BMP suportados." },
     { icon: "comic", title: "Tamanhos flexíveis", body: "Mantenha o tamanho original das imagens, ou padronize tudo em A4 ou Carta com ajuste configurável." },
     { icon: "check", title: "Sem conta, sem custo", body: "Sem cadastro, sem trial, sem upgrade premium. É grátis e fica grátis." },
   ] : [
     { icon: "lock", title: "100% Private", body: "Not a byte leaves your computer. No server, no upload, no tracking cookies." },
     { icon: "bolt", title: "As fast as it should be", body: "Conversion runs on your local CPU. No queue, no wait, no server file-size cap." },
     { icon: "globe", title: "Works offline", body: "Load the page once, then it keeps working without internet. Great for long backlogs." },
-    { icon: "stack", title: "Many formats", body: ".cbz and .zip work out of the box. .cbr/.rar in beta. JPG, PNG, WebP, GIF, BMP supported." },
+    { icon: "stack", title: "Many formats", body: ".cbz and .zip work out of the box. .cbr/.rar fully supported via WASM. JPG, PNG, WebP, GIF, BMP supported." },
     { icon: "comic", title: "Flexible sizing", body: "Keep image-original page sizes, or normalize everything to A4 or Letter with configurable fit." },
     { icon: "check", title: "No account, no cost", body: "No signup, no trial, no premium upgrade. It's free and stays free." },
   ];
@@ -229,12 +229,12 @@ const FAQPreview = ({ t, lang, navigate }) => {
     { q: "Meus arquivos são enviados?", a: "Não. Toda a conversão acontece no seu navegador. Nenhum byte é enviado ao servidor." },
     { q: "É grátis?", a: "Sim. O site é mantido por anúncios em locais discretos." },
     { q: "Funciona com mangás?", a: "Sim — qualquer .cbz com imagens funciona, incluindo mangás em alta resolução." },
-    { q: "E se o CBR for muito grande?", a: "Suporte a CBR é beta. Para arquivos grandes recomendamos converter para CBZ primeiro." },
+    { q: "E se o CBR for muito grande?", a: "CBR é suportado via WASM. Arquivos muito grandes podem esgotar a memória — nesse caso, extraia no desktop e re-empacote como .cbz." },
   ] : [
     { q: "Are my files uploaded?", a: "No. The whole conversion happens in your browser. Not a byte is sent to a server." },
     { q: "Is it free?", a: "Yes. The site is supported by unobtrusive ads in safe placements." },
     { q: "Does it work with manga?", a: "Yes — any .cbz with images works, including high-resolution manga." },
-    { q: "What if my CBR is huge?", a: "CBR is beta. For large RAR files we recommend converting to CBZ first." },
+    { q: "What if my CBR is huge?", a: "CBR is supported via WASM. Very large files may exhaust memory — in that case, extract on the desktop and re-pack as .cbz." },
   ];
   return (
     <div>

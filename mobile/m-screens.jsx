@@ -137,10 +137,10 @@ const MGuidesScreen = ({ t, lang, navigate }) => (
 
     <button className="m-list-row" style={{ borderRadius: 12, border: "2.5px solid var(--ink)", boxShadow: "3px 3px 0 var(--ink)", background: "var(--paper)" }}
       onClick={() => navigate({ name: "guide", id: "cbr" })}>
-      <div className="row-icon" style={{ background: "var(--yellow)" }}><MIcon name="alert" size={18}/></div>
+      <div className="row-icon" style={{ background: "var(--red)", color: "var(--paper)" }}><MIcon name="file" size={18}/></div>
       <div>
-        <div className="row-title">{t.nav.cbr} <span className="m-chip m-chip-yellow" style={{ marginLeft: 4, padding: "2px 6px", fontSize: 8 }}>BETA</span></div>
-        <div className="row-sub">{lang === "pt" ? "RAR no navegador, plano B" : "RAR in browser, plan B"}</div>
+        <div className="row-title">{t.nav.cbr}</div>
+        <div className="row-sub">{lang === "pt" ? "RAR no navegador, passo a passo" : "RAR in browser, step by step"}</div>
       </div>
       <MIcon name="chevron-right" size={18}/>
     </button>
@@ -213,22 +213,35 @@ const MGuideDetail = ({ id, t, lang, onBack }) => (
     )}
     {id === "cbr" && (
       <React.Fragment>
-        <div className="m-eyebrow muted">{lang === "pt" ? "GUIA · BETA" : "GUIDE · BETA"}</div>
+        <div className="m-eyebrow muted">{lang === "pt" ? "GUIA" : "GUIDE"}</div>
         <h1 className="m-display-lg">CBR → PDF</h1>
-        <div className="m-panel" style={{ background: "var(--yellow)", display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <MIcon name="alert" size={20}/>
-          <div>
-            <div style={{ fontFamily: "var(--font-display)", fontSize: 14 }}>
-              {lang === "pt" ? "Suporte beta" : "Beta support"}
-            </div>
-            <div style={{ fontSize: 13, marginTop: 2 }}>
-              {lang === "pt" ? "RAR grandes podem falhar no celular." : "Large RAR files may fail on mobile."}
-            </div>
-          </div>
-        </div>
         <p style={{ fontSize: 14, color: "var(--ink-2)" }}>
-          {lang === "pt" ? "Se falhar, abra o .cbr no desktop, extraia, e re-empacote como .cbz." : "If it fails, open the .cbr on desktop, extract, and re-pack as .cbz."}
+          {lang === "pt"
+            ? "Arquivos .cbr usam RAR. O ComicPDF extrai direto no navegador via WASM — sem instalar nada."
+            : ".cbr files use RAR. ComicPDF extracts them directly in the browser via WASM — nothing to install."}
         </p>
+        <div style={{ display: "grid", gap: 10 }}>
+          {(lang === "pt" ? [
+            "Toque em Converter na barra inferior.",
+            "Escolha um arquivo .cbr do seu telefone.",
+            "Na primeira vez, o motor RAR carrega (alguns segundos).",
+            "Confira as páginas detectadas.",
+            "Toque em Converter para PDF.",
+            "Quando terminar, baixe o PDF.",
+          ] : [
+            "Tap Convert in the bottom bar.",
+            "Pick a .cbr file from your phone.",
+            "On first use, the RAR engine loads (a few seconds).",
+            "Check the detected pages count.",
+            "Tap Convert to PDF.",
+            "When done, download the PDF.",
+          ]).map((step, i) => (
+            <div key={i} className="m-step">
+              <div className="m-step-n" style={{ background: "var(--paper-2)" }}>{String(i+1).padStart(2,"0")}</div>
+              <div style={{ alignSelf: "center", fontSize: 14 }}>{step}</div>
+            </div>
+          ))}
+        </div>
       </React.Fragment>
     )}
     {id === "how" && (
@@ -243,12 +256,12 @@ const MGuideDetail = ({ id, t, lang, onBack }) => (
         <h3 className="m-display-md" style={{ marginTop: 12 }}>{lang === "pt" ? "Limitações" : "Limitations"}</h3>
         <ul style={{ paddingLeft: 18, color: "var(--ink-2)", fontSize: 14 }}>
           {(lang === "pt" ? [
-            "Arquivos enormes podem estourar a memória.",
-            "Suporte a CBR é experimental.",
+            "Arquivos muito grandes podem esgotar a memória.",
+            "CBR/RAR muito grandes levam mais tempo na primeira extração.",
             "Imagens corrompidas são puladas.",
           ] : [
-            "Huge files may exhaust memory.",
-            "CBR support is experimental.",
+            "Very large files may exhaust memory.",
+            "Very large CBR/RAR files take longer on first extraction.",
             "Corrupted images are skipped.",
           ]).map((x, i) => <li key={i} style={{ marginTop: 6 }}>{x}</li>)}
         </ul>
@@ -264,19 +277,19 @@ const MFAQScreen = ({ t, lang }) => {
     { q: "Meus arquivos são enviados?", a: "Não. Tudo acontece no seu navegador, no seu telefone." },
     { q: "É grátis?", a: "Sim. Mantido por anúncios em locais discretos." },
     { q: "Funciona com mangás?", a: "Sim, qualquer .cbz com imagens funciona." },
-    { q: "Por que meu CBR falhou?", a: "Suporte a RAR é beta. Tente converter para CBZ no desktop primeiro." },
+    { q: "Por que meu CBR falhou?", a: "CBR funciona via WASM. Arquivos muito grandes podem esgotar a memória — extraia no desktop e re-empacote como .cbz." },
     { q: "Tem limite de tamanho?", a: "Não há trava nossa. O limite é a memória do seu telefone." },
     { q: "Funciona offline?", a: "Sim. Carregue uma vez e adicione à tela inicial." },
-    { q: "Posso converter vários?", a: "Por enquanto, um por vez. Em breve em lote." },
+    { q: "Posso converter vários?", a: "Sim. Selecione vários arquivos de uma vez — o conversor processa em lote e deixa baixar cada PDF ou todos em um ZIP." },
     { q: "Por que o PDF é grande?", a: "Não recomprimimos as imagens — elas vão como estão." },
   ] : [
     { q: "Are my files uploaded?", a: "No. Everything happens in your browser on your phone." },
     { q: "Is it free?", a: "Yes. Supported by unobtrusive ads." },
     { q: "Does it work with manga?", a: "Yes, any .cbz with images works." },
-    { q: "Why did my CBR fail?", a: "RAR is beta. Try converting to CBZ on desktop first." },
+    { q: "Why did my CBR fail?", a: "CBR works via WASM. Very large files may exhaust memory — extract on desktop and re-pack as .cbz." },
     { q: "Is there a size limit?", a: "No cap from us. The limit is your phone's memory." },
     { q: "Does it work offline?", a: "Yes. Load once and add to home screen." },
-    { q: "Can I convert several?", a: "One at a time for now. Batch coming soon." },
+    { q: "Can I convert several?", a: "Yes. Select multiple files at once — the converter queues them all and lets you download each PDF or all as a ZIP." },
     { q: "Why is the PDF big?", a: "We don't re-compress images — they go in as-is." },
   ];
   return (

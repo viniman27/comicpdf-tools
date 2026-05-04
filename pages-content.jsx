@@ -54,8 +54,8 @@ const HowItWorksPage = ({ t, lang }) => (
       <ProseH2>{lang === "pt" ? "O que é um arquivo CBR" : "What's a CBR file"}</ProseH2>
       <ProseP>
         {lang === "pt"
-          ? "Um arquivo .cbr usa compressão RAR em vez de ZIP. RAR é proprietário e mais difícil de ler no navegador. Por isso o suporte a CBR aqui é marcado como beta."
-          : "A .cbr file uses RAR compression instead of ZIP. RAR is proprietary and harder to read in the browser. That's why CBR support here is marked beta."}
+          ? "Um arquivo .cbr usa compressão RAR em vez de ZIP. O ComicPDF processa CBR diretamente no navegador via WASM (libarchive), sem precisar de nenhum software extra."
+          : "A .cbr file uses RAR compression instead of ZIP. ComicPDF handles CBR natively in the browser via WASM (libarchive), no extra software needed."}
       </ProseP>
 
       <ProseH2>{lang === "pt" ? "Os 4 passos" : "The 4 steps"}</ProseH2>
@@ -79,7 +79,7 @@ const HowItWorksPage = ({ t, lang }) => (
       <ProseH2>{lang === "pt" ? "Limitações honestas" : "Honest limitations"}</ProseH2>
       <ul style={{ paddingLeft: 18, marginTop: 14, color: "var(--ink-2)" }}>
         <li style={{ marginTop: 6 }}>{lang === "pt" ? "Arquivos muito grandes (vários GB) podem estourar a memória do navegador." : "Very large files (multi-GB) may exhaust browser memory."}</li>
-        <li style={{ marginTop: 6 }}>{lang === "pt" ? "Suporte a CBR/RAR é experimental." : "CBR/RAR support is experimental."}</li>
+        <li style={{ marginTop: 6 }}>{lang === "pt" ? "Arquivos CBR/RAR muito grandes podem demorar mais para carregar o motor WASM na primeira vez." : "Very large CBR/RAR files may take longer on first use while the WASM engine loads."}</li>
         <li style={{ marginTop: 6 }}>{lang === "pt" ? "Imagens corrompidas dentro do arquivo são puladas." : "Corrupted images inside the archive are skipped."}</li>
         <li style={{ marginTop: 6 }}>{lang === "pt" ? "PDFs podem ser grandes — não recomprimimos imagens por padrão." : "PDFs may be large — we don't re-compress images by default."}</li>
       </ul>
@@ -166,26 +166,13 @@ const CBZGuidePage = ({ t, lang, navigate }) => (
 const CBRGuidePage = ({ t, lang, navigate }) => (
   <div className="page">
     <PageHeader
-      kicker={lang === "pt" ? "GUIA · BETA" : "GUIDE · BETA"}
+      kicker={lang === "pt" ? "GUIA" : "GUIDE"}
       title={lang === "pt" ? "Como converter CBR para PDF" : "How to convert CBR to PDF"}
       sub={lang === "pt"
-        ? "Arquivos .cbr usam RAR. Aqui está o que esperar e como contornar quando der ruim."
-        : "CBR files use RAR. Here's what to expect, and how to work around it when things break."}
+        ? "Arquivos .cbr usam RAR. O ComicPDF converte diretamente no navegador — sem instalar nada."
+        : "CBR files use RAR. ComicPDF converts them directly in the browser — nothing to install."}
     />
     <Prose>
-      <div className="panel" style={{ padding: 18, background: "var(--yellow)", display: "flex", gap: 14, alignItems: "flex-start" }}>
-        <Icon name="alert" size={22}/>
-        <div>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 17 }}>
-            {lang === "pt" ? "Suporte a CBR é beta" : "CBR support is beta"}
-          </div>
-          <div style={{ fontSize: 14, marginTop: 4 }}>
-            {lang === "pt"
-              ? "Arquivos RAR grandes podem falhar ou consumir muita memória no navegador."
-              : "Large RAR files may fail or use a lot of memory in the browser."}
-          </div>
-        </div>
-      </div>
 
       <ProseH2>{lang === "pt" ? "O que é um arquivo CBR?" : "What is a CBR file?"}</ProseH2>
       <ProseP>
@@ -194,18 +181,18 @@ const CBRGuidePage = ({ t, lang, navigate }) => (
           : "CBR is Comic Book RAR — a RAR archive with image pages inside. Functionally identical to CBZ, but using WinRAR's compression format."}
       </ProseP>
 
-      <ProseH2>{lang === "pt" ? "Plano A: tente direto" : "Plan A: just try it"}</ProseH2>
+      <ProseH2>{lang === "pt" ? "Como converter" : "How to convert"}</ProseH2>
       <ProseP>
         {lang === "pt"
-          ? "Solte o .cbr no conversor. Se o arquivo não for muito grande, ele vai funcionar normalmente como um CBZ."
-          : "Drop the .cbr into the converter. If the file isn't too large, it'll work just like a CBZ would."}
+          ? "Solte o .cbr no conversor da mesma forma que um .cbz. Na primeira vez, o motor WASM (libarchive) é carregado — isso leva alguns segundos. Depois disso, a extração começa normalmente."
+          : "Drop the .cbr into the converter the same way as a .cbz. On first use, the WASM engine (libarchive) loads — that takes a few seconds. After that, extraction proceeds normally."}
       </ProseP>
 
-      <ProseH2>{lang === "pt" ? "Plano B: converter para CBZ" : "Plan B: convert to CBZ"}</ProseH2>
+      <ProseH2>{lang === "pt" ? "Se precisar de fallback" : "If you need a fallback"}</ProseH2>
       <ProseP>
         {lang === "pt"
-          ? "Se falhar, a saída mais simples é trocar o RAR por ZIP no desktop. No 7-Zip ou WinRAR, abra o .cbr, extraia, e re-empacote como ZIP. Renomeie a extensão para .cbz."
-          : "If that fails, the simplest workaround is to swap RAR for ZIP on the desktop. In 7-Zip or WinRAR, open the .cbr, extract, and re-pack as ZIP. Rename the extension to .cbz."}
+          ? "Arquivos RAR muito grandes (vários GB) podem consumir muita memória. Se isso acontecer, a saída mais simples é trocar o RAR por ZIP no desktop: abra o .cbr no 7-Zip ou WinRAR, extraia, re-empacote como ZIP e renomeie para .cbz."
+          : "Very large RAR files (multi-GB) may exhaust memory. If that happens, the simplest workaround is to swap RAR for ZIP on the desktop: open the .cbr in 7-Zip or WinRAR, extract, re-pack as ZIP, and rename to .cbz."}
       </ProseP>
       <div className="tag-box" style={{ marginTop: 14 }}>
         <span className="muted">$ </span>
@@ -231,7 +218,7 @@ const FAQPage = ({ t, lang }) => {
   const items = lang === "pt" ? [
     { q: "Meus arquivos são enviados para algum servidor?", a: "Não. Toda a conversão acontece no seu navegador. Os bytes do .cbz são lidos via API File e processados localmente — nada sai do seu computador." },
     { q: "Posso converter mangás em CBZ?", a: "Sim. Mangás são apenas .cbz com imagens — geralmente em alta resolução. Funciona normalmente; recomendamos manter o tamanho original da imagem para preservar a qualidade." },
-    { q: "Por que meu arquivo CBR falhou?", a: "Suporte a RAR no navegador é beta. Para arquivos grandes, recomendamos extrair o RAR no desktop e re-empacotar como ZIP/CBZ — veja o guia de CBR." },
+    { q: "Por que meu arquivo CBR falhou?", a: "CBR funciona via WASM no navegador. Arquivos muito grandes (vários GB) podem esgotar a memória RAM. Para esses casos, extraia no desktop e re-empacote como ZIP/CBZ." },
     { q: "Qual é o tamanho máximo de arquivo?", a: "Não há um limite fixo. O limite real é a memória RAM do seu computador. Em geral, arquivos até alguns GB funcionam em máquinas modernas." },
     { q: "Funciona offline?", a: "Sim. Depois de carregar a página uma vez, ela continua funcionando sem internet. Você pode salvar como atalho no celular ou Adicionar à tela inicial." },
     { q: "Posso converter vários arquivos de uma vez?", a: "Sim. Arraste vários arquivos de uma vez ou use o botão Adicionar mais. O conversor monta uma fila, converte tudo localmente e deixa baixar cada PDF separado ou todos juntos em um ZIP." },
@@ -243,7 +230,7 @@ const FAQPage = ({ t, lang }) => {
   ] : [
     { q: "Are my files uploaded to a server?", a: "No. The whole conversion happens in your browser. The .cbz bytes are read via the File API and processed locally — nothing leaves your computer." },
     { q: "Can I convert manga CBZ files?", a: "Yes. Manga are just .cbz files with images — usually high resolution. Works normally; we recommend keeping the original image size to preserve quality." },
-    { q: "Why did my CBR file fail?", a: "RAR support in the browser is beta. For large files, we recommend extracting the RAR on the desktop and re-packing as ZIP/CBZ — see the CBR guide." },
+    { q: "Why did my CBR file fail?", a: "CBR works via WASM in the browser. Very large files (multi-GB) may exhaust RAM. For those cases, extract on the desktop and re-pack as ZIP/CBZ." },
     { q: "What's the maximum file size?", a: "There's no hard cap. The real limit is your computer's RAM. Files up to several GB usually work on modern machines." },
     { q: "Does it work offline?", a: "Yes. After loading the page once, it keeps working without internet. You can save it as a home-screen shortcut on mobile." },
     { q: "Can I convert multiple files at once?", a: "Yes. Drag multiple files at once or use the Add more button. The converter queues them all, processes everything locally, and lets you download each PDF individually or all of them together as a ZIP." },
