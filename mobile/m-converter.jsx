@@ -222,7 +222,7 @@ const MConverter = ({ t, lang, setToast }) => {
             </div>
           </div>
 
-          <div className="m-drop" onClick={() => fileInputRef.current?.click()}>
+          <label htmlFor="m-file-input" className="m-drop" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, cursor: "pointer" }}>
             <div style={{
               width: 64, height: 64, borderRadius: 14,
               background: "var(--paper)", border: "3px solid var(--ink)",
@@ -235,16 +235,15 @@ const MConverter = ({ t, lang, setToast }) => {
             <div className="muted" style={{ fontSize: 13 }}>
               {lang === "pt" ? "Selecione um ou vários" : "Pick one or many"}
             </div>
-            <button className="m-btn m-btn-yellow" style={{ marginTop: 8, width: "auto", paddingLeft: 24, paddingRight: 24 }}
-              onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}>
+            <span className="m-btn m-btn-yellow" style={{ marginTop: 8, width: "auto", paddingLeft: 24, paddingRight: 24 }}>
               <MIcon name="file" size={18}/> {t.hero.cta}
-            </button>
+            </span>
             <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
               <span className="m-chip">.CBZ</span>
               <span className="m-chip">.CBR</span>
               <span className="m-chip m-chip-yellow">MULTI</span>
             </div>
-          </div>
+          </label>
         </React.Fragment>
       )}
 
@@ -288,9 +287,9 @@ const MConverter = ({ t, lang, setToast }) => {
             {zipping ? t.converter.zippingLabel + "…" : `${t.converter.batchDownload}${doneCount > 0 ? ` (${doneCount})` : ""}`}
           </button>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <button className="m-btn m-btn-paper m-btn-sm" onClick={() => fileInputRef.current?.click()}>
+            <label htmlFor="m-file-input" className="m-btn m-btn-paper m-btn-sm" style={{ cursor: "pointer" }}>
               <MIcon name="upload" size={14}/> {t.converter.addMore}
-            </button>
+            </label>
             <button className="m-btn m-btn-paper m-btn-sm" onClick={clearAll}>
               <MIcon name="x" size={14}/> {t.converter.clearAll}
             </button>
@@ -328,7 +327,8 @@ const MConverter = ({ t, lang, setToast }) => {
         </div>
       )}
 
-      <input ref={fileInputRef} type="file" accept=".cbz,.cbr,.zip,.rar"
+      <input ref={fileInputRef} id="m-file-input" type="file"
+        accept=".cbz,.cbr,.zip,.rar,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/vnd.rar"
         multiple
         style={{ display: "none" }}
         onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }}/>
