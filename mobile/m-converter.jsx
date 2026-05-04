@@ -19,6 +19,19 @@ function mDetectKind(name) {
 async function mBlobToBytes(blob) { return new Uint8Array(await blob.arrayBuffer()); }
 const M_PAGE_SIZES = { a4: [595.28, 841.89], letter: [612, 792] };
 
+function mLoadLibArchive() {
+  return new Promise((resolve, reject) => {
+    const code = `import{Archive}from"https://cdn.jsdelivr.net/npm/libarchive.js@2.0.2/dist/libarchive.js";Archive.init({workerUrl:"/libarchive-worker.js"});window._LibArchive=Archive;`;
+    const blob = new Blob([code], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
+    const s = document.createElement("script");
+    s.type = "module"; s.src = url;
+    s.onload = () => { URL.revokeObjectURL(url); resolve(); };
+    s.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Failed to load RAR engine")); };
+    document.head.appendChild(s);
+  });
+}
+
 let __mJobIdSeq = 0;
 const newMJobId = () => ++__mJobIdSeq;
 
@@ -67,12 +80,10 @@ const MConverter = ({ t, lang, setToast }) => {
           entries.push({ name: all[i].name, blob: await all[i].async("blob") });
         }
       } else {
-        // CBR: load libarchive.js lazily on first use
+        // CBR: load libarchive.js lazily on first use (via script tag — Babel would mangle import())
         if (!window._LibArchive) {
           updateJob(id, { label: t.converter.loadingRar });
-          const mod = await import("https://cdn.jsdelivr.net/npm/libarchive.js@2.0.2/dist/libarchive.js");
-          mod.Archive.init({ workerUrl: "/libarchive-worker.js" });
-          window._LibArchive = mod.Archive;
+          await mLoadLibArchive();
         }
         const archive = await window._LibArchive.open(file);
         updateJob(id, { label: t.converter.extracting });
