@@ -101,19 +101,19 @@ const Sheet = ({ open, onClose, title, children }) => {
   );
 };
 
-const MAd = ({ size = "banner", note }) => {
-  const labels = {
-    banner: "320×100 mobile banner",
-    rect: "300×250 rectangle",
-    sticky: "320×50 sticky banner",
-  };
+const MAd = ({ size = "banner" }) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+  }, []);
   return (
-    <div className="m-ad" style={{ minHeight: size === "rect" ? 250 : size === "sticky" ? 60 : 100 }}>
-      <div>
-        <div style={{ opacity: 0.7 }}>Advertisement</div>
-        <strong>{labels[size]}</strong>
-        {note && <div style={{ marginTop: 4, fontSize: 9, opacity: 0.7 }}>{note}</div>}
-      </div>
+    <div style={{ overflow: "hidden", textAlign: "center", minHeight: size === "rect" ? 250 : size === "sticky" ? 60 : 100 }}>
+      <ins ref={ref} className="adsbygoogle" style={{ display: "block" }}
+        data-ad-client="ca-pub-7987917511842847"
+        data-ad-slot="7526980307"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 };
