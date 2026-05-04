@@ -328,7 +328,7 @@ const MConverter = ({ t, lang, setToast }) => {
       )}
 
       <input ref={fileInputRef} id="m-file-input" type="file"
-        accept=".cbz,.cbr,.zip,.rar,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/vnd.rar"
+        accept="*/*"
         multiple
         style={{ display: "none" }}
         onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }}/>
