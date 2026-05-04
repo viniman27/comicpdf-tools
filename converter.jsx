@@ -110,12 +110,13 @@ const Converter = ({ t, lang }) => {
         const archive = await window._LibArchive.open(file);
         updateJob(id, { label: t.converter.extracting });
         const fileList = await archive.getFilesArray();
-        const images = fileList.filter(e => e.file && IMAGE_EXT.test(e.path));
+        // entry.path is the PARENT directory; filename is entry.file.name
+        const images = fileList.filter(e => e.file && typeof e.file !== "string" && IMAGE_EXT.test(e.file.name));
         if (!images.length) throw new Error("No images found in CBR.");
-        images.sort((a, b) => naturalCompare(a.path, b.path));
+        images.sort((a, b) => naturalCompare(a.path + a.file.name, b.path + b.file.name));
         for (const entry of images) {
           const extracted = entry.file instanceof File ? entry.file : await entry.file.extract();
-          entries.push({ name: entry.path, blob: extracted });
+          entries.push({ name: entry.path + entry.file.name, blob: extracted });
         }
         await archive.close();
       }
