@@ -88,12 +88,12 @@ const MConverter = ({ t, lang, setToast }) => {
         const archive = await window._LibArchive.open(file);
         updateJob(id, { label: t.converter.extracting });
         const fileList = await archive.getFilesArray();
-        const images = fileList.filter(e => e.file && M_IMAGE_EXT.test(e.path));
+        const images = fileList.filter(e => e.file && typeof e.file !== "string" && M_IMAGE_EXT.test(e.file.name));
         if (!images.length) throw new Error("No images found in CBR.");
-        images.sort((a, b) => mNatCompare(a.path, b.path));
+        images.sort((a, b) => mNatCompare(a.path + a.file.name, b.path + b.file.name));
         for (const entry of images) {
           const extracted = entry.file instanceof File ? entry.file : await entry.file.extract();
-          entries.push({ name: entry.path, blob: extracted });
+          entries.push({ name: entry.path + entry.file.name, blob: extracted });
         }
         await archive.close();
       }
