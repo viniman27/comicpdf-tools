@@ -53,19 +53,40 @@ const MConverter = ({ t, lang, setToast }) => {
     updateJob(id, { status: "extracting", label: t.converter.reading, progress: 4 });
     const kind = mDetectKind(file.name);
     try {
-      if (kind !== "cbz") {
-        if (kind === "cbr") throw new Error(t.converter.cbrBeta);
-        throw new Error("Unsupported file type.");
+      if (kind === "unknown") throw new Error("Unsupported file type.");
+      let entries = [];
+
+      if (kind === "cbz") {
+        const zip = await JSZip.loadAsync(file);
+        const all = [];
+        zip.forEach((p, e) => { if (!e.dir && M_IMAGE_EXT.test(p)) all.push(e); });
+        if (!all.length) throw new Error("No images found.");
+        all.sort((a, b) => mNatCompare(a.name, b.name));
+        updateJob(id, { label: t.converter.extracting });
+        for (let i = 0; i < all.length; i++) {
+          entries.push({ name: all[i].name, blob: await all[i].async("blob") });
+        }
+      } else {
+        // CBR: load libarchive.js lazily on first use
+        if (!window._LibArchive) {
+          updateJob(id, { label: t.converter.loadingRar });
+          const mod = await import("https://cdn.jsdelivr.net/npm/libarchive.js@2.0.2/dist/libarchive.js");
+          mod.Archive.init({ workerUrl: "/libarchive-worker.js" });
+          window._LibArchive = mod.Archive;
+        }
+        const archive = await window._LibArchive.open(file);
+        updateJob(id, { label: t.converter.extracting });
+        const fileList = await archive.getFilesArray();
+        const images = fileList.filter(e => e.file && M_IMAGE_EXT.test(e.path));
+        if (!images.length) throw new Error("No images found in CBR.");
+        images.sort((a, b) => mNatCompare(a.path, b.path));
+        for (const entry of images) {
+          const extracted = entry.file instanceof File ? entry.file : await entry.file.extract();
+          entries.push({ name: entry.path, blob: extracted });
+        }
+        await archive.close();
       }
-      const zip = await JSZip.loadAsync(file);
-      const all = [];
-      zip.forEach((p, e) => { if (!e.dir && M_IMAGE_EXT.test(p)) all.push(e); });
-      if (!all.length) throw new Error("No images found.");
-      all.sort((a, b) => mNatCompare(a.name, b.name));
-      const entries = [];
-      for (let i = 0; i < all.length; i++) {
-        entries.push({ name: all[i].name, blob: await all[i].async("blob") });
-      }
+
       updateJob(id, { status: "ready", archive: { kind, entries }, pageCount: entries.length, progress: 0, label: "" });
     } catch (e) {
       console.error(e);
@@ -209,7 +230,7 @@ const MConverter = ({ t, lang, setToast }) => {
             </button>
             <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
               <span className="m-chip">.CBZ</span>
-              <span className="m-chip">.CBR <strong style={{ marginLeft: 4, fontSize: 8, background: "var(--ink)", color: "var(--paper)", padding: "1px 4px", borderRadius: 3 }}>BETA</strong></span>
+              <span className="m-chip">.CBR</span>
               <span className="m-chip m-chip-yellow">MULTI</span>
             </div>
           </div>
